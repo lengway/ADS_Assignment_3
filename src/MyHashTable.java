@@ -52,15 +52,14 @@ public class MyHashTable<K, V> {
                 return;
             }
 
-            // если некст нулл значит мы в конце цепочки
-            if (current.getNext() == null) {
-                break;
-            }
-
             current = current.getNext();
         }
 
-        // и если мы оказались в конце то добавляем узел в конец
+        current = head;
+        while (current.getNext() != null) {
+            current = current.getNext();
+        }
+
         current.setNext(new HashNode<>(key, value));
         size++;
     }
@@ -71,10 +70,28 @@ public class MyHashTable<K, V> {
     }
 
     public V remove(K key) {
-        ChainArray[hash(key)] = null;
-        size--;
-        return ChainArray[hash(key)].getValue();
+        int index = hash(key);
+        HashNode<K, V> current = ChainArray[index];
+        HashNode<K, V> previous = null;
+
+        while (current != null) {
+            if (current.getKey().equals(key)) {
+                // если это первый элемент в цепочке
+                if (previous == null) {
+                    ChainArray[index] = current.getNext();
+                } else {
+                    previous.setNext(current.getNext());
+                }
+                size--;
+                return current.getValue();
+            }
+            previous = current;
+            current = current.getNext();
+        }
+
+        return null; // если ключ не найден
     }
+
 
     public boolean contains(V value) {
         for (HashNode<K, V> kvHashNode : ChainArray) {
