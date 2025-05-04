@@ -11,10 +11,20 @@ public class MyHashTable<K, V> {
         this.M = M;
     }
 
+    private void initArray() {
+        this.ChainArray = new HashNode[M];
+    }
+
     private int hash(K key) {
+        int hash = 0;
+        int p = 31;
+        int m = 1_000_000_009;
+        String strKey = (String)key;
+        for (int i = 0; i < strKey.length(); i++) {
+            hash = (int)((hash + strKey.charAt(i)) % m);
+        }
 
-
-        return 0;
+        return Math.abs(hash % m);
     }
 
     public void put(K key, V value) {
