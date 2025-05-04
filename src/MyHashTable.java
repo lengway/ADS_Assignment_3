@@ -4,10 +4,11 @@ public class MyHashTable<K, V> {
     private int size;
 
     public MyHashTable() {
-
+        initArray();
     }
 
     public MyHashTable(int M) {
+        initArray();
         this.M = M;
     }
 
@@ -16,20 +17,31 @@ public class MyHashTable<K, V> {
     }
 
     private int hash(K key) {
+        if (!(key instanceof String strKey)) {
+            throw new IllegalArgumentException("Key must be a String");
+        }
+
         int hash = 0;
         int p = 31;
         int m = 1_000_000_009;
-        String strKey = (String)key;
         for (int i = 0; i < strKey.length(); i++) {
-            hash = (int)((hash + strKey.charAt(i)) % m);
+            hash = (int)((hash * p + strKey.charAt(i)) % m);
         }
 
-        return Math.abs(hash % m);
+        return Math.abs(hash % M);
     }
 
     public void put(K key, V value) {
+        int index = hash(key);
 
+        HashNode<K, V> head = ChainArray[index];
+
+        if (head == null) {
+            ChainArray[index] = new HashNode<>(key, value);
+            size++;
+        }
     }
+
 
     public V get(K key) {
         return null;
