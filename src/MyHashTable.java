@@ -17,20 +17,22 @@ public class MyHashTable<K, V> {
     }
 
     private int hash(K key) {
-        // я решил реализовать хештейбл только для стрингов поэтому в начале идет проверка
-        if (!(key instanceof String strKey)) {
-            throw new IllegalArgumentException("Key must be a String");
+        if (key == null) {
+            throw new IllegalArgumentException("Key must not be null");
         }
 
+        String strKey = key.toString();  // преобразуем ключ в строку
         int hash = 0;
         int p = 31;
         int m = 1_000_000_009;
+
         for (int i = 0; i < strKey.length(); i++) {
             hash = (int)((hash * p + strKey.charAt(i)) % m);
         }
 
         return Math.abs(hash % M);
     }
+
 
     public void put(K key, V value) {
         int index = hash(key);
@@ -111,5 +113,18 @@ public class MyHashTable<K, V> {
         }
 
         return null;
+    }
+
+    public void printBucketSizes() {
+        for (int i = 0; i < M; i++) {
+            HashNode<K, V> head = ChainArray[i];
+            int count = 0;
+            while (head != null) {
+                count++;
+                head = head.getNext();
+            }
+
+            System.out.println("Bucket " + i + " size: " + count);
+        }
     }
 }
