@@ -9,11 +9,18 @@ public class MyTestingClass {
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + id;
-        return result;
+        String strKey = name + id; // Используем поля объекта
+        int hash = 0;
+        int p = 31;
+        int m = 1_000_000_009;
+
+        for (int i = 0; i < strKey.length(); i++) {
+            hash = (int)((hash * p + strKey.charAt(i)) % m);
+        }
+
+        return hash;
     }
+
 
     @Override
     public String toString() {
