@@ -1,3 +1,5 @@
+import DataStructures.MyHashTable;
+
 import java.util.Random;
 
 public class Main {

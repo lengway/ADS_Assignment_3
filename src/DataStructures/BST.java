@@ -1,3 +1,5 @@
+package DataStructures;
+
 import java.util.*;
 
 public class BST<K extends Comparable<K>, V> {

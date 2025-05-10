@@ -1,3 +1,5 @@
+package DataStructures;
+
 public class MyHashTable<K, V> {
     private HashNode<K, V>[] ChainArray;
     private int M = 11;
